@@ -44,6 +44,9 @@ Open the application in your browser:
 arduino
 Copy code
 http://<ALB_DNS_NAME>
+
+![Capture d’écran 2024-12-24 211250](https://github.com/user-attachments/assets/47217485-fbb0-4844-b95e-6eaa75113c92)
+
 📁 Project Structure
 Here’s an overview of the files in this repository:
 
@@ -101,15 +104,19 @@ After running `terraform apply`, the following outputs will be displayed:
   ```bash
   terraform destroy
 
-🛡 Troubleshooting
+## 🛡 Troubleshooting
+
 If you encounter any issues, check the following:
 
-AWS CLI Configuration:
-Ensure your credentials are configured correctly using:
-bash
-Copy code
-aws configure
-Terraform Plan:
-Always run terraform plan before applying changes to catch any errors.
-Security Group:
-Verify that the security group allows inbound HTTP traffic on port 80
+1. **AWS CLI Configuration**:
+   - Ensure your credentials are configured correctly using:
+     ```bash
+     aws configure
+     ```
+
+2. **Terraform Plan**:
+   - Always run `terraform plan` before applying changes to catch any errors.
+
+3. **Security Group**:
+   - Verify that the security group allows inbound HTTP traffic on port 80.
+
