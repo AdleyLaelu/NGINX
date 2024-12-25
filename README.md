@@ -173,7 +173,7 @@ name: CI/CD Pipeline
 ├── outputs.tf             # Terraform outputs file (optional)
 
 
-## 🌟 Features
+# 🌟 Features
 
 - **Automated Deployment**: The pipeline automatically builds, pushes, and deploys the application.
 - **Secure Secrets Management**: Environment variables like AWS credentials are securely stored using GitHub Secrets.
