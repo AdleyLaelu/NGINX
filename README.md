@@ -48,30 +48,39 @@ http://<ALB_DNS_NAME>
 Here’s an overview of the files in this repository:
 
 File	Description
-main.tf	Core Terraform code for provisioning AWS resources.
-variables.tf	Defines input variables used across the Terraform code.
-outputs.tf	Specifies outputs like the ALB DNS name, ECS Cluster name, and Task ARN.
-.gitignore	Ensures Terraform state files and .terraform/ directory are ignored.
-README.md	Documentation for understanding and deploying the project.
-🛠 Resources Created
-This Terraform configuration creates the following resources:
+Here’s an overview of the files in this repository:
 
-ECS Cluster:
+| **File**          | **Description**                                                              |
+|--------------------|------------------------------------------------------------------------------|
+| `main.tf`          | Core Terraform configuration file for provisioning AWS resources.           |
+| `variables.tf`     | Defines input variables for resource customization.                         |
+| `outputs.tf`       | Specifies outputs, such as the ALB DNS name, ECS Cluster name, and Task ARN.|
+| `.gitignore`       | Excludes `.terraform/` and state files from version control.                |
+| `README.md`        | Documentation for understanding and deploying the project.                  |
 
-A cluster to host the ECS tasks.
-ECS Task Definition:
+---
 
-Defines the Nginx container task to be run on Fargate.
-Application Load Balancer (ALB):
+## Resources Created
 
-Routes incoming HTTP traffic to the ECS service.
-IAM Roles:
+This Terraform configuration creates the following AWS resources:
 
-Task Role: Allows the container to perform actions within AWS.
-Execution Role: Allows ECS to pull container images and write logs.
-Security Group:
+### ECS Cluster
+- A cluster to host the ECS tasks.
 
-Configured to allow inbound HTTP traffic on port 80.
+### ECS Task Definition
+- Defines the Nginx container task to be run on Fargate.
+
+### Application Load Balancer (ALB)
+- Routes incoming HTTP traffic to the ECS service.
+
+### IAM Roles
+1. **Task Role**: Grants permissions for the ECS tasks to interact with AWS services.
+2. **Execution Role**: Allows ECS to pull container images and write logs.
+
+### Security Group
+- Configured to allow inbound HTTP traffic on port 80.
+
+
 📤 Outputs
 After running terraform apply, the following outputs will be displayed:
 
