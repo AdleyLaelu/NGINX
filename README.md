@@ -1,4 +1,3 @@
-# NGINX
 
 # Terraform AWS ECS Fargate Project
 
@@ -119,4 +118,94 @@ If you encounter any issues, check the following:
 
 3. **Security Group**:
    - Verify that the security group allows inbound HTTP traffic on port 80.
+
+  # CI/CD Pipeline with GitHub Actions
+
+This repository contains a **CI/CD pipeline** setup for deploying a simple Nginx-based web application using **GitHub Actions**, **Docker**, and **AWS ECS (Elastic Container Service)**.
+
+## 📋 Overview
+
+The GitHub Actions pipeline performs the following tasks:
+1. **Checkout Code**: Pulls the latest changes from the `main` branch.
+2. **Build Docker Image**: Builds a Docker container for the Nginx application.
+3. **Push Image to Amazon ECR**: Pushes the Docker image to **Amazon Elastic Container Registry (ECR)**.
+4. **Deploy to AWS ECS**: Deploys the container to **AWS ECS Fargate**.
+5. **Secure Secrets Management**: Uses **GitHub Secrets** for environment variables and sensitive information.
+6. **Triggers**: Automatically triggered when changes are pushed to the `main` branch.
+
+---
+
+## 🛠 Prerequisites
+
+Before running the pipeline, ensure you have the following:
+
+1. **AWS Account**
+   - Permissions for ECS, ECR, and Docker image management.
+
+2. **GitHub Repository**
+   - Repository with the application code and a `Dockerfile`.
+
+3. **GitHub Secrets**
+   - Configure the following secrets in your GitHub repository:
+     - `AWS_ACCESS_KEY_ID`: AWS access key ID.
+     - `AWS_SECRET_ACCESS_KEY`: AWS secret access key.
+     - `ECR_URL`: Amazon ECR repository URL (e.g., `123456789012.dkr.ecr.us-east-1.amazonaws.com`).
+
+4. **Dockerfile**
+   - Dockerfile for building the Nginx container.
+
+---
+
+## 🚀 Workflow Configuration
+
+### GitHub Actions Workflow File
+
+```yaml
+name: CI/CD Pipeline
+.
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml      # GitHub Actions workflow file
+├── Dockerfile             # Dockerfile for building the container
+├── index.html             # HTML file served by the application
+├── main.tf                # Terraform configuration file (optional)
+├── variables.tf           # Terraform variables file (optional)
+├── outputs.tf             # Terraform outputs file (optional)
+
+
+## 🌟 Features
+
+- **Automated Deployment**: The pipeline automatically builds, pushes, and deploys the application.
+- **Secure Secrets Management**: Environment variables like AWS credentials are securely stored using GitHub Secrets.
+- **Dockerized Application**: The Nginx-based web app is fully containerized for efficient deployment.
+- **Terraform Support (Optional)**: Option to use Terraform for managing AWS infrastructure.
+
+---
+
+## 🔧 How to Run the Pipeline
+
+### 1. Push Code
+Commit and push changes to the `main` branch. This action triggers the GitHub Actions pipeline.
+
+### 2. Monitor the Workflow
+Navigate to the **Actions** tab in your GitHub repository to monitor the progress of the pipeline.
+
+### 3. Access the Application
+Once deployed, retrieve the **ALB DNS Name** from AWS ECS or Terraform outputs. Use the following URL to access the application:
+
+http://<ALB_DNS_NAME>
+
+
+---
+
+## 📝 Notes
+
+### Optional Terraform Deployment
+If you prefer using Terraform for deployment, replace the AWS CLI deployment step with the following commands in your GitHub Actions workflow:
+```yaml
+- name: Deploy to ECS using Terraform
+  run: |
+    terraform init
+    terraform plan
+    terraform apply -auto-approve
 
