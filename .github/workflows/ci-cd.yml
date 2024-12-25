@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy to ECS
+    runs-on: ubuntu-latest
+
+    env:
+      ECR_REPOSITORY: nginx-repository               # Replace with your actual ECR repository name
+      ECS_CLUSTER_NAME: nginx-cluster               # The ECS cluster name from your Terraform setup
+      ECS_SERVICE_NAME: nginx-service               # The ECS service name from your Terraform setup
+      AWS_REGION: us-east-1                         # The AWS region you are using (us-east-1 in your case)
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ env.ECR_REPOSITORY }}:latest .
+          docker tag ${{ env.ECR_REPOSITORY }}:latest ${{ secrets.ECR_URL }}/${{ env.ECR_REPOSITORY }}:latest
+
+      - name: Push Docker Image to ECR
+        run: |
+          docker push ${{ secrets.ECR_URL }}/${{ env.ECR_REPOSITORY }}:latest
+
+      - name: Deploy to ECS using AWS CLI
+        run: |
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER_NAME }} \
+            --service ${{ env.ECS_SERVICE_NAME }} \
+            --force-new-deployment
+
+      - name: Deploy to ECS using Terraform (optional alternative)
+        run: |
+          terraform init
+          terraform plan
+          terraform apply -auto-approve
