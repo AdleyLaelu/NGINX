@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ECR_REPOSITORY: nginx-repository               # Replace with your actual ECR repository name
+      ECR_REPOSITORY: nginx-repository               # The name of your ECR repository
       ECS_CLUSTER_NAME: nginx-cluster               # The ECS cluster name from your Terraform setup
       ECS_SERVICE_NAME: nginx-service               # The ECS service name from your Terraform setup
-      AWS_REGION: us-east-1                         # The AWS region you are using (us-east-1 in your case)
+      AWS_REGION: us-east-1                         # The AWS region you are using (us-east-1)
+      ECR_URL: 010526250776.dkr.ecr.us-east-1.amazonaws.com # Replace with your actual ECR URL
 
     steps:
       - name: Checkout Code
@@ -34,11 +35,11 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t ${{ env.ECR_REPOSITORY }}:latest .
-          docker tag ${{ env.ECR_REPOSITORY }}:latest ${{ secrets.ECR_URL }}/${{ env.ECR_REPOSITORY }}:latest
+          docker tag ${{ env.ECR_REPOSITORY }}:latest ${{ env.ECR_URL }}/${{ env.ECR_REPOSITORY }}:latest
 
       - name: Push Docker Image to ECR
         run: |
-          docker push ${{ secrets.ECR_URL }}/${{ env.ECR_REPOSITORY }}:latest
+          docker push ${{ env.ECR_URL }}/${{ env.ECR_REPOSITORY }}:latest
 
       - name: Deploy to ECS using AWS CLI
         run: |
