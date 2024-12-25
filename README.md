@@ -81,20 +81,26 @@ This Terraform configuration creates the following AWS resources:
 - Configured to allow inbound HTTP traffic on port 80.
 
 
-📤 Outputs
-After running terraform apply, the following outputs will be displayed:
+## 📤 Outputs
 
-ALB DNS Name: The public DNS name of the Application Load Balancer (use this to access the app).
-ECS Cluster Name: The name of the ECS cluster created.
-Task Definition ARN: The ARN of the ECS task definition.
-⚠️ Important Notes
-Exclude State Files:
-The .terraform/ directory and terraform.tfstate files are excluded from version control using .gitignore.
-Destroy Resources:
-To avoid unnecessary AWS charges, destroy the resources when no longer needed:
-bash
-Copy code
-terraform destroy
+After running `terraform apply`, the following outputs will be displayed:
+
+- **ALB DNS Name**: The public DNS name of the Application Load Balancer (use this to access the app).
+- **ECS Cluster Name**: The name of the ECS cluster created.
+- **Task Definition ARN**: The ARN of the ECS task definition.
+
+---
+
+## ⚠️ Important Notes
+
+### Exclude State Files
+- The `.terraform/` directory and `terraform.tfstate` files are excluded from version control using `.gitignore`.
+
+### Destroy Resources
+- To avoid unnecessary AWS charges, destroy the resources when they are no longer needed:
+  ```bash
+  terraform destroy
+
 🛡 Troubleshooting
 If you encounter any issues, check the following:
 
